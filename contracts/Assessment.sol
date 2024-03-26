@@ -4,57 +4,43 @@ pragma solidity ^0.8.9;
 //import "hardhat/console.sol";
 
 contract Assessment {
-    address payable public owner;
-    uint256 public balance;
+    
+     string public disp;
 
-    event Deposit(uint256 amount);
-    event Withdraw(uint256 amount);
 
-    constructor(uint initBalance) payable {
-        owner = payable(msg.sender);
-        balance = initBalance;
+    constructor(string memory initDisplay) payable {
+        disp = initDisplay;
     }
 
-    function getBalance() public view returns(uint256){
-        return balance;
+    function getBalance() public view returns(string memory){
+        return disp;
     }
 
-    function deposit(uint256 _amount) public payable {
-        uint _previousBalance = balance;
-
-        // make sure this is the owner
-        require(msg.sender == owner, "You are not the owner of this account");
-
-        // perform transaction
-        balance += _amount;
-
-        // assert transaction completed successfully
-        assert(balance == _previousBalance + _amount);
-
-        // emit the event
-        emit Deposit(_amount);
-    }
-
-    // custom error
-    error InsufficientBalance(uint256 balance, uint256 withdrawAmount);
-
-    function withdraw(uint256 _withdrawAmount) public {
-        require(msg.sender == owner, "You are not the owner of this account");
-        uint _previousBalance = balance;
-        if (balance < _withdrawAmount) {
-            revert InsufficientBalance({
-                balance: balance,
-                withdrawAmount: _withdrawAmount
-            });
+    function Get_Started(string memory code) public payable {
+        if(keccak256(abi.encodePacked((code))) == keccak256(abi.encodePacked(("Tiger")))){
+            disp="Welcome to my Frontend project for Metacrafters";
         }
+        else{
+            disp="Invalid Code entered";
+        }
+    }
 
-        // withdraw the given amount
-        balance -= _withdrawAmount;
+    function animalfacts(string memory animal) public {
+        if(keccak256(abi.encodePacked((animal))) == keccak256(abi.encodePacked(("Lion")))){
+            disp="Lion is the king of the jungle";
+        }
+        else if(keccak256(abi.encodePacked((animal))) == keccak256(abi.encodePacked(("Elephant")))){
+            disp="Elephant is a mammal";
+        }
+        else if(keccak256(abi.encodePacked((animal))) == keccak256(abi.encodePacked(("Cheetah")))){
+            disp="Cheetah is the fastest";
+        }
+        else if(keccak256(abi.encodePacked((animal))) == keccak256(abi.encodePacked(("Fox")))){
+            disp="Fox is cunning";
 
-        // assert the balance is correct
-        assert(balance == (_previousBalance - _withdrawAmount));
-
-        // emit the event
-        emit Withdraw(_withdrawAmount);
+        }
+        else{
+            disp="Enter either Lion, Elephant, Cheetah or Fox";
+        }
     }
 }
