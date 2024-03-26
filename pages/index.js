@@ -55,21 +55,25 @@ export default function HomePage() {
 
   const getBalance = async() => {
     if (atm) {
-      setBalance((await atm.getBalance()).toNumber());
+      setBalance((await atm.getBalance()).toString());
     }
   }
 
-  const deposit = async() => {
+  const Get_Started = async() => {
     if (atm) {
-      let tx = await atm.deposit(1);
+      
+      let code=prompt("Enter the code word");
+      
+      let tx = await atm.Get_Started(code);
       await tx.wait()
       getBalance();
     }
   }
 
-  const withdraw = async() => {
+  const AnimalFacts = async() => {
     if (atm) {
-      let tx = await atm.withdraw(1);
+      let text=prompt("Enter the name of the animal");
+      let tx = await atm.animalfacts(text);
       await tx.wait()
       getBalance();
     }
@@ -93,9 +97,9 @@ export default function HomePage() {
     return (
       <div>
         <p>Your Account: {account}</p>
-        <p>Your Balance: {balance}</p>
-        <button onClick={deposit}>Deposit 1 ETH</button>
-        <button onClick={withdraw}>Withdraw 1 ETH</button>
+        <p>Display: {balance}</p>
+        <button onClick={Get_Started}>Get started</button>
+        <button onClick={AnimalFacts}>Animal Facts</button>
       </div>
     )
   }
@@ -104,12 +108,14 @@ export default function HomePage() {
 
   return (
     <main className="container">
-      <header><h1>Welcome to the Metacrafters ATM!</h1></header>
+      <header><h1>Animal Facts by Joel</h1></header>
       {initUser()}
       <style jsx>{`
         .container {
-          text-align: center
+          text-align: center;
+          
         }
+        
       `}
       </style>
     </main>
